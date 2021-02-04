@@ -5,16 +5,24 @@ import java.util.ArrayList;
 public abstract class Hamming {
 
 	/**
-	 * Method to encore a message into a Hamming word
+	 * Method to encode a message into a Hamming word
 	 * @param message The message to encode
-	 * @return The hamming word resulted of the encoding
+	 * @return The control bits followed by the hamming word with the bits in it
 	 */
 	public static String encodeHamming(String message) {
 		if(!message.matches("[01]+")) throw new IllegalArgumentException("The message must be a bits string");
 		char[] prepared = prepareMessage(message.toCharArray());
-		setControlBits(prepared);
+
 		StringBuilder sb = new StringBuilder();
-		for(int i = prepared.length-1; i >= 0; --i)  sb.append(prepared[i]);
+
+		char[] controlBits = getControlBits(prepared, prepared.length - message.length());
+		setControlBits(prepared, controlBits);
+
+		sb.append(String.valueOf(prepared));
+		sb.append(":");
+		sb.append(String.valueOf(controlBits));
+		sb.reverse();
+
 		return sb.toString();
 	}
 
@@ -22,15 +30,36 @@ public abstract class Hamming {
 	 * Method that will change the control bits
 	 * to what they need to be
 	 * @param prepared the prepared char array of the message
+	 * @param control Array with the control bits
 	 */
-	private static void setControlBits(char[] prepared) {
-		int index = 0;
-		for(int i = 0; i < prepared.length; ++i) {
-			if(prepared[i] == 'C') {
-				Character[] highBits = getHighBits(index++, prepared);
-				prepared[i] = getParity(highBits);
+	private static void setControlBits(char[] prepared, char[] control) {
+		for(Character controlB : control) {
+			for(int i = 0; i < prepared.length; ++i) {
+				if (prepared[i] == 'C') {
+					prepared[i] = controlB;
+					break;
+				}
 			}
 		}
+	}
+
+	/**
+	 * Method that will calculate the control bits
+	 * and return them into a char array
+	 * @param prepared the prepared char array of the message
+	 * @param nbControl the number of control bits
+	 */
+	private static char[] getControlBits(char[] prepared, int nbControl) {
+		char[] control = new char[nbControl];
+		int controlCnt = 0;
+		int index = 0;
+		for (char c : prepared) {
+			if (c == 'C') {
+				Character[] highBits = getHighBits(index++, prepared);
+				control[controlCnt++] = getParity(highBits);
+			}
+		}
+		return control;
 	}
 
 	/**

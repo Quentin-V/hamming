@@ -35,13 +35,16 @@ class HammingTest {
 
 	@Test
 	public void testEncodeHamming() {
-		String expected = "1010010";
+		String expected = "010:1010010";
 		assertEquals(expected, Hamming.encodeHamming("1010"));
 
-		expected = "1010101";
+		expected = "001:1010101";
 		assertEquals(expected, Hamming.encodeHamming("1011"));
 
-		expected = "1100000100";
+		expected = "0000:1100000100";
 		assertEquals(expected, Hamming.encodeHamming("110001"));
+
+		expected = "0101:110001011001";
+		assertEquals(expected, Hamming.encodeHamming("11001010"));
 	}
 }
