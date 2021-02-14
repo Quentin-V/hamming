@@ -54,13 +54,11 @@ public class HammingInterface extends JFrame {
 	
 	public void initDialDecipher(String message) {
 		JDialog dial = new JDialog(this, "Résultat");
-		setContentPane(new JPanel(new GridLayout(2, 1)));
-		
-		JLabel rewind = new JLabel("Le mot de Hamming est : " + message);
+		JPanel pan = new JPanel(new GridLayout(2, 1));
 		
 		ArrayList<Integer> posError = Hamming.getErrors(message);
 		
-		String supp = "";
+		String supp;
 		if(posError.isEmpty()) {
 			supp = "Aucune erreur dans ce mot de Hamming !";
 		}
@@ -71,11 +69,13 @@ public class HammingInterface extends JFrame {
 			}
 		}
 		
-		JLabel result = new JLabel("Test");
+		JLabel rewind = new JLabel("Le mot de Hamming est : " + message);
+		JLabel result = new JLabel(supp);
 		
-		dial.add(rewind);
-		dial.add(result);
+		pan.add(rewind);
+		pan.add(result);
 	
+		dial.setContentPane(pan);
 		dial.setLocationRelativeTo(this);
 		dial.pack();
 		dial.setVisible(true);
