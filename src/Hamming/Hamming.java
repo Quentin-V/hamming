@@ -108,6 +108,46 @@ public abstract class Hamming {
 		return prepared;
 	}
 
+	static ArrayList<Integer> getWrongControlBits(char[] messageArray, char[] reversedMessage) {
+		ArrayList<Integer> errors = new ArrayList<>();
+
+		for(int i = 0; i < messageArray.length; ++i) reversedMessage[i] = messageArray[messageArray.length-i-1];
+
+		int nbControl = 0;
+		for(int i = 0; i < messageArray.length; ++i) if(isPowerOfTwo(i+1)) ++nbControl;
+
+		for(int i = 0; i < nbControl; ++i) {
+			ArrayList<Character> toControl = new ArrayList<>();
+			for(int j = 0; j < reversedMessage.length; ++j) {
+				if(getKthBit(j+1, i) == 1) toControl.add(reversedMessage[j]);
+			}
+			if(getParity(toControl.toArray(new Character[0])) != '0') errors.add(i);
+		}
+
+		return errors;
+	}
+
+	static ArrayList<Integer> getErrors(String message) {
+		ArrayList<Integer> posErrors = new ArrayList<>();
+		char[] messageArray = message.toCharArray();
+		char[] reversedMessage = new char[messageArray.length];
+		ArrayList<Integer> wrongBits = getWrongControlBits(messageArray, reversedMessage);
+		for(int i = 0; i < reversedMessage.length; ++i) {
+			boolean isError = false;
+			for(Integer bitPos : wrongBits) {
+				if(getKthBit(i+1, bitPos) == 1) {
+					isError = true;
+				}else {
+					isError = false;
+					break;
+				}
+			}
+			if(isError) posErrors.add(i);
+		}
+		return posErrors;
+	}
+
+
 	/**
 	 * Method used to get the log2 of a number
 	 * @param n The number you want to know the log2 of

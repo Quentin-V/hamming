@@ -2,6 +2,8 @@ package Hamming;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class HammingTest {
@@ -46,5 +48,29 @@ class HammingTest {
 
 		expected = "0101:110001011001";
 		assertEquals(expected, Hamming.encodeHamming("11001010"));
+	}
+
+	@Test
+	public void testGetErrors() {
+		ArrayList<Integer> expected = new ArrayList<>();
+		expected.add(4);
+		expected.add(6);
+
+		String message = "110001010000"; // Errors on control bit 0 and 2
+
+		assertEquals(expected, Hamming.getErrors(message));
+
+		expected.clear();
+		expected.add(1);
+		expected.add(2);
+		expected.add(5);
+		expected.add(6);
+		expected.add(9);
+		expected.add(10);
+
+		message = "110001011011"; // Errors on control bit 1
+
+		assertEquals(expected, Hamming.getErrors(message));
+
 	}
 }
