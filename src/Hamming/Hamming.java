@@ -127,7 +127,7 @@ public abstract class Hamming {
 		return errors;
 	}
 
-	static ArrayList<Integer> getErrors(String message) {
+	public static ArrayList<Integer> getErrors(String message) {
 		ArrayList<Integer> posErrors = new ArrayList<>();
 		char[] messageArray = message.toCharArray();
 		char[] reversedMessage = new char[messageArray.length];
