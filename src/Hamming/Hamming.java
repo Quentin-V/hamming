@@ -108,6 +108,12 @@ public abstract class Hamming {
 		return prepared;
 	}
 
+	/**
+	 * Method used to get the control bits that does not match the message
+	 * @param messageArray the message in char array
+	 * @param reversedMessage the essage reversed in char array
+	 * @return an ArrayList of Integer representing the control bits that does not respect the parity
+	 */
 	static ArrayList<Integer> getWrongControlBits(char[] messageArray, char[] reversedMessage) {
 		ArrayList<Integer> errors = new ArrayList<>();
 
@@ -127,6 +133,11 @@ public abstract class Hamming {
 		return errors;
 	}
 
+	/**
+	 * Method that will return the positions of the bits that may contain an error
+	 * @param message The message hamming encoded
+	 * @return an ArrayList with the positions of the bits that may be errors
+	 */
 	public static ArrayList<Integer> getErrors(String message) {
 		ArrayList<Integer> posErrors = new ArrayList<>();
 		char[] messageArray = message.toCharArray();

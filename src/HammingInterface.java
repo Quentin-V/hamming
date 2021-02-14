@@ -58,19 +58,19 @@ public class HammingInterface extends JFrame {
 		
 		ArrayList<Integer> posError = Hamming.getErrors(message);
 		
-		String supp;
+		StringBuilder supp;
 		if(posError.isEmpty()) {
-			supp = "Aucune erreur dans ce mot de Hamming !";
+			supp = new StringBuilder("Aucune erreur dans ce mot de Hamming !");
 		}
 		else {
-			supp = "Erreur détecté au(x) bit(s) : ";
-			for (int i = 0; i < posError.size(); i++) {
-				supp += posError.get(i) + " ";
+			supp = new StringBuilder("Erreur(s) possible(s) détecté(s) au(x) bit(s) : ");
+			for (Integer integer : posError) {
+				supp.append(integer).append(" ");
 			}
 		}
 		
 		JLabel rewind = new JLabel("Le mot de Hamming est : " + message);
-		JLabel result = new JLabel(supp);
+		JLabel result = new JLabel(supp.toString());
 		
 		pan.add(rewind);
 		pan.add(result);
@@ -82,14 +82,12 @@ public class HammingInterface extends JFrame {
 	}
 	
 	class Encode implements ActionListener {
-		
 		public void actionPerformed(ActionEvent e) {
 			initDialEncode(txtMot.getText());
 		}
 	}
 	
 	class Decipher implements ActionListener {
-		
 		public void actionPerformed(ActionEvent e) {
 			initDialDecipher(txtMot.getText());
 		}
