@@ -83,13 +83,23 @@ public class HammingInterface extends JFrame {
 	
 	class Encode implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			initDialEncode(txtMot.getText());
+			if(txtMot.getText().matches("[01]+")) {
+				initDialEncode(txtMot.getText());
+			}
+			else {
+				JOptionPane.showMessageDialog(null, "Invalid bits input", "Error", JOptionPane.INFORMATION_MESSAGE);
+			}
 		}
 	}
 	
 	class Decipher implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			initDialDecipher(txtMot.getText());
+			if(txtMot.getText().matches("[01]+")) {
+				initDialDecipher(txtMot.getText());
+			}
+			else {
+				JOptionPane.showMessageDialog(null, "Invalid bits input", "Error", JOptionPane.INFORMATION_MESSAGE);
+			}
 		}
 	}
 	
